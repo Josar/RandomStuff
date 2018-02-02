@@ -47,7 +47,7 @@ sodu make
 
 It can be configured as follows
 ```
-./RFmgtt [-h Host] [-p Port] [-u username] [-x password] [-t topic] [-g WiringPI GPIO] [-w pulsewith]
+./RFmqtt [-h Host] [-p Port] [-u username] [-x password] [-t topic] [-g WiringPI GPIO] [-w pulsewith]
 ```
 All paramter are optional, default values are.
 ```
