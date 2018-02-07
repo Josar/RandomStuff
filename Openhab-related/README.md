@@ -60,3 +60,29 @@ GPIO Pin: 2
 Pulsewidth: none
 ```
 
+
+To enable autostart at startup copy the RFmqtt.service to
+```
+/lib/systemd/system/
+```
+And change the path of ExecStart to mathc your path to RFmqtt.
+
+Make the file executable
+```
+sudo chmod 644 /lib/systemd/system/RFmqtt.service 
+```
+Reload the systemctl deamon, enable, start and view the status of the RFmqtt.service.
+```
+sudo systemctl daemon-reload
+sudo systemctl enable RFmqtt.service
+sudo systemctl start RFmqtt.service
+sudo systemctl status RFmqtt.service
+● RFmqtt.service - 433MHz Receiver on RPI GPIO sending to MQTT Broker
+   Loaded: loaded (/lib/systemd/system/RFmqtt.service; enabled; vendor preset: enabled)
+   Active: active (running) since xxx xxxx-xx-xx xx:xx:xx UTC; xxmin ago
+ Main PID: 6748 (RFmqtt)
+   CGroup: /system.slice/RFmqtt.service
+           └─6748 /home/pi/SourceCode/433Utils/RPi_utils/RFmqtt
+```
+
+
