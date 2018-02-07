@@ -61,11 +61,11 @@ Pulsewidth: none
 ```
 
 
-To enable autostart at startup copy the RFmqtt.service to
+To enable autostart at startup of the RPI copy the RFmqtt.service to
 ```
 /lib/systemd/system/
 ```
-And change the path of ExecStart to mathc your path to RFmqtt.
+And change the path of ExecStart to match your path to RFmqtt.
 
 Make the file executable
 ```
@@ -85,4 +85,7 @@ sudo systemctl status RFmqtt.service
            └─6748 /home/pi/SourceCode/433Utils/RPi_utils/RFmqtt
 ```
 
-
+You can also define paramter in the RFmqtt.service at startup.
+```
+ExecStart=/home/pi/SourceCode/433Utils/RPi_utils/RFmqtt [-h Host] [-p Port] [-u username] [-x password] [-t topic] [-g WiringPI GPIO] [-w pulsewith]
+```
