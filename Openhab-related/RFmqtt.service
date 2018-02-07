@@ -1,0 +1,10 @@
+[Unit]
+Description=433MHz Receiver on RPI GPIO sebding to MQTT Broker
+
+[Service]
+Type=simple
+user=root
+ExecStart=/home/pi/SourceCode/433Utils/RPi_utils/RFmqtt
+
+[Install]
+WantedBy=multi-user.target
