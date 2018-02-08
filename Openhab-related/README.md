@@ -4,9 +4,11 @@ It is configured to send data to locallhost expecting the broker to run on the R
 
 It is based on the RFSniffer from [433Utils](https://github.com/ninjablocks/433Utils) and is best placed beside RFSniffer in RPI_utils
 
-To compile it is neccessary to change the Makefile as follows.
+To compile it is necessary to change the Makefile as follows.
+When copy pasting from here one problem remains as the markdown interpreter replaces the tabular with 8 spaces.
+The lines which are intended, so always the second line after a `:`. Replace it with a tabular.
 
-```
+```make
 # Defines the RPI variable which is needed by rc-switch/RCSwitch.h
 CXXFLAGS=-DRPI
 
