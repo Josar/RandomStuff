@@ -13,19 +13,19 @@ CXXFLAGS=-DRPI
 all: send codesend RFSniffer RFmqtt
 
 send: ../rc-switch/RCSwitch.o send.o
-        $(CXX) $(CXXFLAGS) $(LDFLAGS) $+ -o $@ -lwiringPi
+	$(CXX) $(CXXFLAGS) $(LDFLAGS) $+ -o $@ -lwiringPi
 
 codesend: ../rc-switch/RCSwitch.o codesend.o
-        $(CXX) $(CXXFLAGS) $(LDFLAGS) $+ -o $@ -lwiringPi
+	$(CXX) $(CXXFLAGS) $(LDFLAGS) $+ -o $@ -lwiringPi
 
 RFSniffer: ../rc-switch/RCSwitch.o RFSniffer.o
-        $(CXX) $(CXXFLAGS) $(LDFLAGS) $+ -o $@ -lwiringPi
+	$(CXX) $(CXXFLAGS) $(LDFLAGS) $+ -o $@ -lwiringPi
 
 RFmqtt: ../rc-switch/RCSwitch.o RFmqtt.o
-        $(CXX) $(CXXFLAGS) $(LDFLAGS) $+ -o $@ -lwiringPi -lmosquitto
+	$(CXX) $(CXXFLAGS) $(LDFLAGS) $+ -o $@ -lwiringPi -lmosquitto
 
 clean:
-        $(RM) ../rc-switch/*.o *.o send codesend servo RFSniffer RFmqtt
+	$(RM) ../rc-switch/*.o *.o send codesend servo RFSniffer RFmqtt
 ```
 
 Besides that some depencies have to be installed.
