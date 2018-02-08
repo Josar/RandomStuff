@@ -65,7 +65,9 @@ Pulsewidth: none
 ```
 
 
-To enable autostart at startup of the RPI copy the RFmqtt.service to
+To enable autostart at startup of the RPI copy the RFmqtt.service.  
+And change the path of `ExecStart` to match your path to RFmqtt.
+
 ```bash
 sudo nano /lib/systemd/system/RFmqtt.service
 ```
@@ -83,7 +85,6 @@ WantedBy=multi-user.target
 
 ```
 
-And change the path of ExecStart to match your path to RFmqtt.
 
 Make the file executable
 ```bash
