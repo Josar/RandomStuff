@@ -5,8 +5,9 @@ It is configured to send data to locallhost expecting the broker to run on the R
 It is based on the RFSniffer from [433Utils](https://github.com/ninjablocks/433Utils) and is best placed beside RFSniffer in RPI_utils
 
 To compile it is necessary to change the Makefile as follows.
-When copy pasting from here one problem remains as the markdown interpreter replaces the tabular with 8 spaces.
-The lines which are intended, so always the second line after a `:`. Replace it with a tabular.
+When copy pasting from here one problem may occur as sometimes the tabular get replacesd with 8 spaces.
+The lines which are intended, so always the second line after a `:`.  
+Make sure it is a tabular.
 
 ```make
 # Defines the RPI variable which is needed by rc-switch/RCSwitch.h
@@ -32,25 +33,26 @@ clean:
 
 Besides that some depencies have to be installed.
 
-```
+```bash
 sudo apt-get install libmosquitto-dev
 ```
 
 when running mosquitto as broker on the pi it has also to be installed.
 
-```
+```bash
 sudo apt-get install mosquitto
 ```
 
 after that just compile it ( this expects you followed all steps necccessary to compile the RPI_utils previously).
-```
+```bash
 sodu make
 ```
 
 It can be configured as follows
-```
+```bash
 ./RFmqtt [-h Host] [-p Port] [-u username] [-x password] [-t topic] [-g WiringPI GPIO] [-w pulsewith]
 ```
+
 All paramter are optional, default values are.
 ```
 Host: localhost
@@ -64,17 +66,32 @@ Pulsewidth: none
 
 
 To enable autostart at startup of the RPI copy the RFmqtt.service to
+```bash
+sudo nano /lib/systemd/system/RFmqtt.service
 ```
-/lib/systemd/system/
 ```
+[Unit]
+Description=433MHz Receiver on RPI GPIO sending to MQTT Broker
+
+[Service]
+Type=simple
+user=root
+ExecStart=/home/pi/SourceCode/433Utils/RPi_utils/RFmqtt
+
+[Install]
+WantedBy=multi-user.target
+
+```
+
 And change the path of ExecStart to match your path to RFmqtt.
 
 Make the file executable
-```
+```bash
 sudo chmod 644 /lib/systemd/system/RFmqtt.service 
 ```
+
 Reload the systemctl deamon, enable, start and view the status of the RFmqtt.service.
-```
+```bash
 sudo systemctl daemon-reload
 sudo systemctl enable RFmqtt.service
 sudo systemctl start RFmqtt.service
