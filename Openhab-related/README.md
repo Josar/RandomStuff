@@ -74,6 +74,7 @@ sudo nano /lib/systemd/system/RFmqtt.service
 ```
 [Unit]
 Description=433MHz Receiver on RPI GPIO sending to MQTT Broker
+After=mosquitto.service
 
 [Service]
 Type=simple
