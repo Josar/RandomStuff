@@ -141,7 +141,7 @@ int main(int argc, char *argv[]) {
           char  valueStr[35];
           sprintf(valueStr,"%i", value );
 
-          ret = mosquitto_publish (mosq, NULL, &MQTT_TOPIC[0u], strlen (valueStr), valueStr, 0, false);
+          ret = mosquitto_publish (mosq, NULL, topic, strlen (valueStr), valueStr, 0, false);
           if (ret)
           {
             fprintf (stderr,"Can't publish to Mosquitto server\n");
