@@ -10,7 +10,12 @@
 #include "../rc-switch/RCSwitch.h"
 #include <stdlib.h>
 #include <stdio.h>
-#include <unistd.h
+
+/* usleep */
+#include <unistd.h>
+
+/* nanosleep */
+#include <time.h>
 
 /* for options */
 #include <getopt.h>
@@ -125,19 +130,34 @@ int main(int argc, char *argv[]) {
     if (pulseLength != 0) mySwitch.setPulseLength(pulseLength);
     mySwitch.enableReceive(pin);  // Receiver on interrupt 0 => that is pin #2
 
-    while(1) {
-      if (mySwitch.available()) {
-
+    /* Setup timespec */
+    struct timespec req;
+    req.tv_sec = 0L;
+    req.tv_nsec = 500000L;
+    
+    int value = 0;
+    char valueStr[35];
+    
+    while (1) 
+    {
+      if (mySwitch.available())
+      {
         int value = mySwitch.getReceivedValue();
-
-        if (value == 0) {
-         fprintf (stderr,"Unknown encoding\n");
+        mySwitch.resetAvailable();
+        
+        if (value > 0) 
+        {
+          sprintf(valueStr,"%i", value );
+          ret = mosquitto_publish (mosq, NULL, topic, strlen (valueStr), valueStr, 0, false);
+        }
+        
+        /* Include for debugging */
+        /*
+        if (value == 0)
+        {
+          fprintf (stderr,"Unknown encoding\n");
         }else
         {
-          char  valueStr[35];
-          sprintf(valueStr,"%i", value );
-
-          ret = mosquitto_publish (mosq, NULL, topic, strlen (valueStr), valueStr, 0, false);
           if (ret)
           {
             fprintf (stderr,"Can't publish to Mosquitto server\n");
@@ -146,13 +166,15 @@ int main(int argc, char *argv[]) {
           {
             fprintf (stdout,"Received %s\n", valueStr );
           }
+          
         }
-
         fflush(stdout);
-        mySwitch.resetAvailable();
-      }else
+        */
+      }
+      else
       {
-        usleep(500U);
+         //usleep(500U);
+        nanosleep( &req, (struct timespec *)NULL);
       }
     }
 
