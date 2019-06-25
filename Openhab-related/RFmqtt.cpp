@@ -22,18 +22,17 @@
 #include <mosquitto.h>
 
 /* parameter
- * -g GPIO Pin connected to pi 
+ * -g GPIO Pin connected to pi
  * -h host
  * -p port
  * -u mqtt username
- * -x pasword 
+ * -x pasword
  * -t topic
  * -w pulsewith
  * -n help
  */
 
 RCSwitch mySwitch;
-
 
 
 int main(int argc, char *argv[]) {
@@ -47,14 +46,14 @@ int main(int argc, char *argv[]) {
 
     /* default values */
     char  MQTT_HOSTNAME[] = "localhost\0";
-    char  MQTT_USERTNAME[] = "admin\0";
+    char  MQTT_USERTNAME[]= "admin\0";
     char  MQTT_PASSWORD[] = "password\0";
     char  MQTT_TOPIC[]    = "433MHz\0";
 
-    char* host = MQTT_HOSTNAME; 
+    char* host = MQTT_HOSTNAME;
     int port   = 1883;
-    char* usr  = MQTT_USERTNAME; 
-    char* pswd = MQTT_PASSWORD; 
+    char* usr  = MQTT_USERTNAME;
+    char* pswd = MQTT_PASSWORD;
     char* topic= MQTT_TOPIC;
 
    /* parse input parameter */
@@ -67,7 +66,7 @@ int main(int argc, char *argv[]) {
                 break;
             case 'p':
                 port = atoi(optarg);
-                break;  
+                break;
             case 'u':
                 usr = optarg;
                 break;
@@ -92,8 +91,7 @@ int main(int argc, char *argv[]) {
         }
 
      fprintf (stdout,"Running with -h %s -p %i -u %s -x %s -t %s -g %i -w %i\n",
-                     host, port, usr ,pswd , topic, pin , pulseLength ); 
-
+                     host, port, usr ,pswd , topic, pin , pulseLength );
 
 
     struct mosquitto *mosq = NULL;
@@ -102,14 +100,14 @@ int main(int argc, char *argv[]) {
     mosquitto_lib_init();
 
     // Create a new Mosquitto runtime instance with a random client ID,
-    //  and no application-specific callback data.  
+    //  and no application-specific callback data.
     mosq = mosquitto_new (NULL, true, NULL);
     if (!mosq)
     {
       fprintf (stderr, "Can't initialize Mosquitto library\n");
       exit (-1);
     }
-    
+
     mosquitto_username_pw_set (mosq, usr, pswd);
 
     // Establish a connection to the MQTT server. Do not use a keep-alive ping
@@ -119,7 +117,7 @@ int main(int argc, char *argv[]) {
       fprintf (stderr, "Can't connect to Mosquitto server\n");
       exit (-1);
     }
-    
+
     if(wiringPiSetup() == -1) {
       fprintf (stderr,"wiringPiSetup failed, exiting...");
       return 0;
@@ -128,16 +126,16 @@ int main(int argc, char *argv[]) {
     mySwitch = RCSwitch();
     if (pulseLength != 0) mySwitch.setPulseLength(pulseLength);
     mySwitch.enableReceive(pin);  // Receiver on interrupt 0 => that is pin #2
-     
-    
+
     while(1) {
       if (mySwitch.available()) {
 
         int value = mySwitch.getReceivedValue();
-    
+
         if (value == 0) {
          fprintf (stderr,"Unknown encoding\n");
-        } else {    
+        }else
+        {
           char  valueStr[35];
           sprintf(valueStr,"%i", value );
 
@@ -146,13 +144,17 @@ int main(int argc, char *argv[]) {
           {
             fprintf (stderr,"Can't publish to Mosquitto server\n");
             exit (-1);
-          }else 
+          }else
           {
             fprintf (stdout,"Received %s\n", valueStr );
           }
         }
-    
+
+        fflush(stdout);
         mySwitch.resetAvailable();
+      }else
+      {
+        usleep(500);
       }
     }
 
