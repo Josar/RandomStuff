@@ -1,9 +1,7 @@
 /*
   RFSniffer connected to RPI GPIO 2 / BCM27 / Pin 13
-
   Usage: ./RFSniffer [<pulseLength>]
   [] = optional
-
   Hacked from http://code.google.com/p/rc-switch/
   by @justy to provide a handy RF code sniffer
   by @josar to forward the massages to MQTT
@@ -12,9 +10,9 @@
 #include "../rc-switch/RCSwitch.h"
 #include <stdlib.h>
 #include <stdio.h>
+#include <unistd.h
 
 /* for options */
-#include <unistd.h>
 #include <getopt.h>
 #include <strings.h>
 
@@ -41,7 +39,7 @@ int main(int argc, char *argv[]) {
     // Consult https://projects.drogon.net/raspberry-pi/wiringpi/pins/
     // for more information.
     // This pin is BCM27 / Pin 13
-    int pin = 2;
+    int pin = 3;
     int pulseLength = 0;
 
     /* default values */
@@ -154,7 +152,7 @@ int main(int argc, char *argv[]) {
         mySwitch.resetAvailable();
       }else
       {
-        usleep(500);
+        usleep(500U);
       }
     }
 
@@ -162,7 +160,6 @@ int main(int argc, char *argv[]) {
   mosquitto_disconnect (mosq);
   mosquitto_destroy (mosq);
   mosquitto_lib_cleanup();
-  
+
   exit(0);
 }
-
