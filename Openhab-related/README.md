@@ -45,7 +45,7 @@ sudo apt-get install mosquitto
 
 after that just compile it ( this expects you followed all steps necccessary to compile the RPI_utils previously).
 ```bash
-sodu make
+sudo make
 ```
 
 It can be configured as follows
