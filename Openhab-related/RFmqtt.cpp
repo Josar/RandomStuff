@@ -113,8 +113,8 @@ int main(int argc, char *argv[]) {
 
     mosquitto_username_pw_set (mosq, usr, pswd);
 
-    // Establish a connection to the MQTT server. Do not use a keep-alive ping
-    int ret = mosquitto_connect (mosq, host, port, 0);
+    // Establish a connection to the MQTT server. Keep-alive ping every hour.
+    int ret = mosquitto_connect (mosq, host, port, 3600);
     if (ret)
     {
       fprintf (stderr, "Can't connect to Mosquitto server\n");
