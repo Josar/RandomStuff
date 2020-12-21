@@ -44,7 +44,7 @@ int main(int argc, char *argv[]) {
     // Consult https://projects.drogon.net/raspberry-pi/wiringpi/pins/
     // for more information.
     // This pin is BCM27 / Pin 13
-    int pin = 3;
+    int pin = 2;
     int pulseLength = 0;
 
     /* default values */
